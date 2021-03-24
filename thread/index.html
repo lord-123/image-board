@@ -33,14 +33,15 @@ $thread[$form:fields.thread]
 		^void:sql{INSERT INTO posts
 			(board, name, body, reply)
 		VALUES
-			($board.id, '$poster_name', '$form:body', $thread)}
+			($board.id, '$poster_name', '$form:body', $thread)
+		}
+		^void:sql{UPDATE posts SET date_bumped=now() WHERE id=$thread}
 	}
 }
 
 @thread_posts[]
 ^dbconnect{
-	$posts[^table::sql{SELECT * FROM posts WHERE reply=$thread OR id=$thread ORDER BY date_bumped ASC}]
-	^void:sql{UPDATE posts SET date_bumped=now() WHERE id=$thread}
+	$posts[^table::sql{SELECT * FROM posts WHERE reply=$thread OR id=$thread ORDER BY date_posted ASC}]
 }
 ^posts.menu{
 	^post[$posts]
