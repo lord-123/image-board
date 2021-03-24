@@ -38,9 +38,9 @@
 		^void:sql{INSERT INTO posts
 			(board, name, body, reply)
 		VALUES
-			($board.id, '$poster_name', '$form:body', $thread)
+			($board.id, '$poster_name', '$form:body', $thread.id)
 		}
-		^void:sql{UPDATE posts SET date_bumped=now() WHERE id=$thread}
+		^void:sql{UPDATE posts SET date_bumped=now() WHERE id=$thread.id}
 	}
 }
 
