@@ -1,5 +1,10 @@
 @auto[]
-$thread[$form:fields.thread]
+^dbconnect{
+	$thread[^table::sql{SELECT * FROM posts WHERE id=$form:fields.thread}]
+}
+
+@title[]
+/$board.directory/ - ^if(def $thread.title){$thread.title}{$thread.body}
 
 @body[]
 ^thread_posts[]
@@ -41,7 +46,7 @@ $thread[$form:fields.thread]
 
 @thread_posts[]
 ^dbconnect{
-	$posts[^table::sql{SELECT * FROM posts WHERE reply=$thread OR id=$thread ORDER BY date_posted ASC}]
+	$posts[^table::sql{SELECT * FROM posts WHERE reply=$thread.id OR id=$thread.id ORDER BY date_posted ASC}]
 }
 ^posts.menu{
 	^post[$posts]

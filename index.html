@@ -1,3 +1,10 @@
+@title[]
+^if($board){
+	/$board.directory/ - $board.name
+}{
+	$board_name
+}
+
 @body[]
 ^if($board){
 	^body_board[]

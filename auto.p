@@ -21,7 +21,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>$board_name</title>
+		<title>^title[]</title>
 		<link rel="stylesheet" href="/style.css">
 	</head>
 	<body bgcolor="bisque">
@@ -66,9 +66,9 @@
 	}
 	^dbconnect{
 		^void:sql{INSERT INTO posts
-			(board, name, title, body, newthread)
+			(board, name, title, body, newthread, date_bumped)
 		VALUES
-			($board.id, '$poster_name', $post_title, '$form:body', TRUE)
+			($board.id, '$poster_name', $post_title, '$form:body', TRUE, now())
 		}
 	}
 }
