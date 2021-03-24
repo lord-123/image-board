@@ -1,0 +1,47 @@
+@auto[]
+$thread[$form:fields.thread]
+
+@body[]
+^thread_posts[]
+^thread_reply[]
+
+@thread_reply[]
+<form method="POST">
+<table>
+	<tbody>
+		<tr>
+			<td>Name</td>
+			<td><input name="name" placeholder="Anonymous"></td>
+		</tr>
+		<tr>
+			<td>Body</td>
+			<td colspan="2"><textarea name="body"></textarea></td>
+		</tr>
+		<tr>
+			<td><input type="submit" value="Post" name="posted"></td>
+		</tr>
+	</tbody>
+</table>
+</form>
+^if(def $form:body){
+	^if(def $form:name){
+		$poster_name[$form:name]
+	}{
+		$poster_name[Anonymous]
+	}
+	^dbconnect{
+		^void:sql{INSERT INTO posts
+			(board, name, body, reply)
+		VALUES
+			($board.id, '$poster_name', '$form:body', $thread)}
+	}
+}
+
+@thread_posts[]
+^dbconnect{
+	$posts[^table::sql{SELECT * FROM posts WHERE reply=$thread OR id=$thread ORDER BY date_bumped ASC}]
+	^void:sql{UPDATE posts SET date_bumped=now() WHERE id=$thread}
+}
+^posts.menu{
+	^post[$posts]
+}

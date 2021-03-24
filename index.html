@@ -1,0 +1,14 @@
+@body[]
+^if($board){
+	^body_board[]
+}{
+	^404[]
+}
+
+@body_posts[]
+^dbconnect{
+	$posts[^table::sql{SELECT * FROM posts WHERE board=$board.id AND newthread=TRUE ORDER BY date_bumped ASC}]
+}
+^posts.menu{
+	^post[$posts]
+}
