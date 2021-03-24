@@ -74,8 +74,9 @@
 }
 
 @post[post]
-		<div class="post">
-			<p><b>$post.title $post.name</b> $post.date_posted <a href="/thread?board=$board.directory&thread=$post.id">No.</a>$post.id</p>
+		<div class="^if(!$post.newthread){post}">
+			<p><b>$post.title $post.name</b> $post.date_posted <a 
+				href="/thread?board=$board.directory&thread=$post.id">No.</a>$post.id</p>
 			<blockquote>$post.body</blockquote>
 		</div>
 

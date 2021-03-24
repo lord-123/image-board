@@ -10,5 +10,12 @@
 	$posts[^table::sql{SELECT * FROM posts WHERE board=$board.id AND newthread=TRUE ORDER BY date_bumped DESC}]
 }
 ^posts.menu{
+	^dbconnect{
+		$replies[^table::sql{SELECT * FROM (SELECT * FROM posts WHERE reply=$posts.id ORDER BY date_posted DESC LIMIT 3)a ORDER BY date_posted ASC}]
+	}
+	<hr>
 	^post[$posts]
+	^replies.menu{
+		^post[$replies]
+	}
 }
