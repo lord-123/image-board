@@ -1,0 +1,16 @@
+LoadModule parser3_module /usr/lib/apache2/modules/mod_parser3.so
+
+<Directory "/path/to/site">
+	AllowOverride FileInfo
+	DirectoryIndex index.html
+</Directory>
+
+<Files ~ "\.(p|cfg)$">
+	Order allow,deny
+	Deny from all
+</Files>
+
+<VirtualHost *:80>
+	DocumentRoot "/path/to/site"
+	ServerName boards.your-domain.com
+</VirtualHost>

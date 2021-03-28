@@ -1,0 +1,2 @@
+# Make Parser3 the html page handler
+AddHandler parser3-handler html
