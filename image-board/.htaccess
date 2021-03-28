@@ -1,2 +1,7 @@
 # Make Parser3 the html page handler
 AddHandler parser3-handler html
+
+# Route correctly
+RewriteEngine On
+RewriteRule ^([A-Za-z0-9]+)$ ?board=$1 [QSA]
+RewriteRule ^([A-Za-z0-9]+)/([0-9])$ ?board=$1&thread=$2 [QSA]
