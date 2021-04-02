@@ -1,5 +1,6 @@
 - The `apache2` folder should go to `/etc/apache2`
-- `image-board` goes to `/var/www/image-board` (or whataver you want to call it)
+- `image-board` goes to `/var/www/image-board` (or whatever you want to call it)
 - `*.example` files should be edited and renamed without `.example`
+- Run `sql/createdb.sql` to generate the database. Run `sql/populate.sql` to fill with some dummy data for testing.
 -----
 - Install script is to be made

@@ -1,6 +1,27 @@
-.post {
-	background-color: lightsalmon;
-	border: 1px solid black;
-	margin: 5px;
-	padding-left: 5px;
+.subject {
+	color: red;
+	font-weight: bold;
+}
+
+.name {
+	color: green;
+	font-weight: bold;
+}
+
+div.post {
+	margin: 4px 0;
+	overflow: hidden;
+}
+
+div.reply {
+	background-color: peachpuff;
+	border: 1px solid lightsalmon;
+	border-left: none;
+	border-top: none;
+	display: table;
+	padding: 2px;
+}
+
+body {
+	background-color: floralwhite;
 }

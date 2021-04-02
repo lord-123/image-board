@@ -3,5 +3,5 @@ AddHandler parser3-handler html
 
 # Route correctly
 RewriteEngine On
-RewriteRule ^([A-Za-z0-9]+)$ ?board=$1 [QSA]
-RewriteRule ^([A-Za-z0-9]+)/([0-9])$ ?board=$1&thread=$2 [QSA]
+RewriteRule ^([\w\d]+)$ board=$1 [QSA]
+RewriteRule ^([\w\d]+)\/thread\/(\d+)$ thread/?board=$1&thread=$2 [QSA]

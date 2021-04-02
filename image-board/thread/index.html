@@ -1,6 +1,6 @@
 @auto[]
 ^dbconnect{
-	$thread[^table::sql{SELECT * FROM posts WHERE id=$form:fields.thread}]
+	$thread[^table::sql{SELECT * FROM threads WHERE id=$form:fields.thread}]
 }
 
 @title[]
@@ -16,11 +16,11 @@
 	<tbody>
 		<tr>
 			<td>Name</td>
-			<td><input name="name" placeholder="Anonymous"></td>
+			<td><input name="author" placeholder="Anonymous"></td>
 		</tr>
 		<tr>
 			<td>Body</td>
-			<td colspan="2"><textarea name="body"></textarea></td>
+			<td colspan="2"><textarea name="comment"></textarea></td>
 		</tr>
 		<tr>
 			<td><input type="submit" value="Post" name="posted"></td>
@@ -28,26 +28,23 @@
 	</tbody>
 </table>
 </form>
-^if(def $form:body){
-	^if(def $form:name){
-		$poster_name[$form:name]
-	}{
-		$poster_name[Anonymous]
-	}
+^if(def $form:comment){
 	^dbconnect{
-		^void:sql{INSERT INTO posts
-			(board, name, body, reply)
-		VALUES
-			($board.id, '$poster_name', '$form:body', $thread.id)
-		}
-		^void:sql{UPDATE posts SET date_bumped=now() WHERE id=$thread.id}
+		^void:sql{CALL new_reply(
+			'$form:comment',
+			^if(def $form:author){'$form:author'}{'Anonymous'},
+			$thread.id
+		)}
 	}
+	<p>Reply sent. Click <a href="">here</a> if it has not loaded</p>
 }
 
-@thread_posts[]
+@thread_posts[][op;replies]
 ^dbconnect{
-	$posts[^table::sql{SELECT * FROM posts WHERE reply=$thread.id OR id=$thread.id ORDER BY date_posted ASC}]
+	$op[^table::sql{CALL get_thread_op($thread.id)}]
+	$replies[^table::sql{CALL get_thread_replies($thread.id)}]
 }
-^posts.menu{
-	^post[$posts]
+^postop[$op;$thread]
+^replies.menu{
+	^post[$replies]
 }

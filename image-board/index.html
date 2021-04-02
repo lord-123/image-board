@@ -1,10 +1,3 @@
-@title[]
-^if($board){
-	/$board.directory/ - $board.name
-}{
-	$board_name
-}
-
 @body[]
 ^if($board){
 	^body_board[]
@@ -14,15 +7,9 @@
 
 @body_posts[]
 ^dbconnect{
-	$posts[^table::sql{SELECT * FROM posts WHERE board=$board.id AND newthread=TRUE ORDER BY date_bumped DESC}]
+	$threads[^table::sql{CALL get_board_threads($board.id)}]
 }
-^posts.menu{
-	^dbconnect{
-		$replies[^table::sql{SELECT * FROM (SELECT * FROM posts WHERE reply=$posts.id ORDER BY date_posted DESC LIMIT 3)a ORDER BY date_posted ASC}]
-	}
+^threads.menu{
+	^thread_preview[$threads]
 	<hr>
-	^post[$posts]
-	^replies.menu{
-		^post[$replies]
-	}
 }
