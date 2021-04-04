@@ -1,15 +1,17 @@
-@body[]
-^if($board){
-	^body_board[]
-}{
-	^404[]
-}
+@title[]
+$board_name
 
-@body_posts[]
+@body[]
 ^dbconnect{
-	$threads[^table::sql{CALL get_board_threads($board.id)}]
+	$boards[^table::sql{SELECT uri, name FROM boards}]
 }
-^threads.menu{
-	^thread_preview[$threads]
-	<hr>
-}
+<center>
+	<h1>$board_name</h1>
+	<ul>
+		^boards.menu{
+			<li>
+			<a href="/$boards.uri">$boards.name</a>
+			</li>
+		}
+	</ul>
+</center>

@@ -1,16 +1,31 @@
-@auto[]
+@get_thread[]
 ^dbconnect{
-	$thread[^table::sql{SELECT * FROM threads WHERE id=$form:fields.thread}]
+	$thread[^table::sql{SELECT * FROM threads WHERE id = $form:fields.thread}]
+}
+
+@setup[]
+$setup_worked[0]
+^if(def $form:fields.board && def $form:fields.thread){
+	^get_board[]
+	^get_thread[]
+	^if($board > 0 && $thread > 0){
+		$setup_worked[1]
+	}
 }
 
 @title[]
-/$board.directory/ - ^if(def $thread.title){$thread.title}{$thread.body}
+/$board.uri/ - $thread.title - $board.name 
 
 @body[]
-^thread_posts[]
-^thread_reply[]
+^display_thread[$thread]
+<hr>
+<center>^new_reply[]</center>
 
-@thread_reply[]
+@new_reply[]
+<h1>Post a reply</h1>
+^reply_form[]
+
+@reply_form[]
 <form method="POST">
 <table>
 	<tbody>
@@ -21,6 +36,10 @@
 		<tr>
 			<td>Body</td>
 			<td colspan="2"><textarea name="comment"></textarea></td>
+		</tr>
+		<tr>
+			<td>File</td>
+			<td><input type="file" name="image" /></td>
 		</tr>
 		<tr>
 			<td><input type="submit" value="Post" name="posted"></td>
@@ -37,14 +56,4 @@
 		)}
 	}
 	<p>Reply sent. Click <a href="">here</a> if it has not loaded</p>
-}
-
-@thread_posts[][op;replies]
-^dbconnect{
-	$op[^table::sql{CALL get_thread_op($thread.id)}]
-	$replies[^table::sql{CALL get_thread_replies($thread.id)}]
-}
-^postop[$op;$thread]
-^replies.menu{
-	^post[$replies]
 }
