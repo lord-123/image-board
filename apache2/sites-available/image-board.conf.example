@@ -1,3 +1,5 @@
+ParserConfig /etc/parser3/apache2/auto.p
+
 <Directory "/path/to/site">
 	AllowOverride FileInfo
 	DirectoryIndex index.html
