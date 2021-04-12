@@ -1,3 +1,4 @@
 @auto[]
 $connect_string[mysql://user:pass@localhost/image_board]
 $board_name[epic_channel]
+$compress_script[/compress.sh]

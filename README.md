@@ -1,3 +1,5 @@
+- requires mysql and ImageMagick
+- `chmod +x compress.sh`
 - The `apache2` folder should go to `/etc/apache2`
 - `image-board` goes to `/var/www/image-board` (or whatever you want to call it)
 - `*.example` files should be edited and renamed without `.example`

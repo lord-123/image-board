@@ -8,6 +8,26 @@
 	font-weight: bold;
 }
 
+.imageExpander {
+	display: none;
+}
+
+.imageExpander:checked + label > .thumbnail {
+	display: none;
+}
+
+:not(.imageExpander:checked) + label > .fullImage {
+	display: none;
+}
+
+.thumbnail {
+	float: left;
+}
+
+hr {
+	clear: both;
+}
+
 div.post {
 	margin: 4px 0;
 	overflow: hidden;

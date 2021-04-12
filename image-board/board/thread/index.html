@@ -13,6 +13,9 @@ $setup_worked[0]
 	}
 }
 
+@execute_form[]
+^execute_reply_form[]
+
 @title[]
 /$board.uri/ - $thread.title - $board.name 
 
@@ -26,7 +29,7 @@ $setup_worked[0]
 ^reply_form[]
 
 @reply_form[]
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
 <table>
 	<tbody>
 		<tr>
@@ -47,13 +50,34 @@ $setup_worked[0]
 	</tbody>
 </table>
 </form>
+
+@execute_reply_form[]
 ^if(def $form:comment){
-	^dbconnect{
-		^void:sql{CALL new_reply(
-			'$form:comment',
-			^if(def $form:author){'$form:author'}{'Anonymous'},
-			$thread.id
-		)}
+	^if(def $form:image){
+		^try{
+			$image[^image::measure[$form:image]]
+			^dbconnect{
+				$id[^int:sql{CALL new_reply(
+					'$form:comment',
+					^if(def $form:author){'$form:author'}{'Anonymous'},
+					$thread.id,
+					'$form:image.name'
+				)}]
+			}
+			^form:image.save[binary;/images/${id}.^file:justext[$form:image.name]]
+			$f[^file::exec[$compress_script;;${id}.^file:justext[$form:image.name];${id}c.jpg;125x125>]]
+		}{
+			$exception.handled(true)
+			<h1>Image upload failed.</h1>
+		}
+	}{
+		^dbconnect{
+			^void:sql{CALL new_reply(
+				'$form:comment',
+				^if(def $form:author){'$form:author'}{'Anonymous'},
+				$thread.id,
+				NULL
+			)}
+		}
 	}
-	<p>Reply sent. Click <a href="">here</a> if it has not loaded</p>
 }
