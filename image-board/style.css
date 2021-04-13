@@ -16,12 +16,16 @@
 	display: none;
 }
 
-:not(.imageExpander:checked) + label > .fullImage {
+.imageExpander:not(:checked) + label > .fullImage {
 	display: none;
 }
 
 .thumbnail {
 	float: left;
+}
+
+.fullImage {
+	max-width: 100%;
 }
 
 hr {
