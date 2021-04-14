@@ -73,7 +73,7 @@
 			)}]
 		}
 		^form:image.save[binary;/images/${id}.^file:justext[$form:image.name]]
-		$f[^file::exec[$compress_script;;${id}.^file:justext[$form:image.name];${id}c.jpg;250x250>]]
+		$f[^file::exec[/compress.sh;;${id}.^file:justext[$form:image.name];${id}c.jpg;250x250>]]
 	}{
 		$exception.handled(true)
 		<h1>Thread creation failed.</h1>

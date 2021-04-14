@@ -65,7 +65,7 @@ $setup_worked[0]
 				)}]
 			}
 			^form:image.save[binary;/images/${id}.^file:justext[$form:image.name]]
-			$f[^file::exec[$compress_script;;${id}.^file:justext[$form:image.name];${id}c.jpg;125x125>]]
+			$f[^file::exec[/compress.sh;;${id}.^file:justext[$form:image.name];${id}c.jpg;125x125>]]
 		}{
 			$exception.handled(true)
 			<h1>Image upload failed.</h1>
