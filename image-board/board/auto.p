@@ -122,7 +122,9 @@
 		<div class="postInfo">
 			^if($op){<span class="subject">$thread.title</span>}
 			<span class="name">$post.author</span>
-			<span class="date">$post.date_posted</span>
+			$date[^date::create[$post.date_posted]]
+			^date.roll[TZ;GMT0BST]
+			<span class="date">$date.day/$date.month/$date.year ^date.hour.format[%02u]:^date.minute.format[%02u]:^date.second.format[%02u]</span>
 			<span class="postNum">
 				<a href="/$board.uri/thread/$post.thread#p$post.id">No.</a>
 				<a>$post.id</a>
