@@ -48,6 +48,13 @@
 			^display_form[]
 		</center>
 		<hr />
+		^navigator[]
+		<hr />
+
+@generic_navigator[elements]
+<div>
+	^elements.foreach[;v]{^[<a href="$v.uri">$v.name</a>^]}[]
+</div>
 
 @generic_form[elements]
 <form method="post" enctype="multipart/form-data">
