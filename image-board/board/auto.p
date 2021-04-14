@@ -28,7 +28,8 @@
 	^body[]
 	^footer[]
 }{
-	^404[]
+	$response:status(404)
+	$response:body[<h1>404 - not found</h1>]
 }
 
 @header[]

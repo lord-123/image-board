@@ -4,10 +4,10 @@ $setup[0]
 	^get_board[]
 	^if($board > 0){
 		$setup_worked[1]
+		^dbconnect{
+			$threads[^table::sql{CALL get_board_threads($board.id)}]
+		}
 	}
-}
-^dbconnect{
-	$threads[^table::sql{CALL get_board_threads($board.id)}]
 }
 $browser(true)
 
