@@ -9,6 +9,7 @@ $setup[0]
 ^dbconnect{
 	$threads[^table::sql{CALL get_board_threads($board.id)}]
 }
+$browser(true)
 
 @execute_form[]
 ^execute_thread_form[]

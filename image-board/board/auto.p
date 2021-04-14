@@ -129,6 +129,11 @@
 				<a href="/$board.uri/thread/$post.thread#p$post.id">No.</a>
 				<a>$post.id</a>
 			</span>
+			^if($browser && $op){
+				<span>
+					[<a href="/$board.uri/thread/$post.thread">reply</a>]
+				</span>
+			}
 		</div>
 		^if(!$op){^postFile[$post]}
 		<blockquote>$post.comment</blockquote>
