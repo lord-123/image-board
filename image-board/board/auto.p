@@ -8,15 +8,21 @@
 ^use[/404.html]
 ^page[]
 
+@get_boards[]
+^dbconnect{
+	$boards[^table::sql{SELECT uri, name FROM boards ORDER BY uri ASC}]
+}
+
 @get_board[]
 ^dbconnect{
-	$board[^table::sql{SELECT * FROM boards WHERE uri='$form:fields.board'}]
+	$board[^table::sql{SELECT id, uri, name FROM boards WHERE uri='$form:fields.board'}]
 }
 
 @main[]
 ^setup[]
 ^if($setup_worked){
 	$board_vanity[/$board.uri/ - $board.name]
+	^get_boards[]
 	^execute_form[]
 	^header[]
 	^body[]
@@ -33,6 +39,12 @@
 		<link rel="stylesheet" href="/style.css">
 	</head>
 	<body>
+		<div>
+			[ ^boards.foreach[;v]{<a href="/$v.uri" title="$v.name">$v.uri</a>}[/] ]
+		</div>
+		<center>
+			<h1>$board_vanity</h1>
+		</center>
 
 @thread_form[]
 <form method="post" enctype="multipart/form-data">
@@ -136,7 +148,7 @@
 			<span class="name">$post.author</span>
 			<span class="date">$post.date_posted</span>
 			<span class="postNum">
-				<a href="$board.uri/thread/$post.thread#p$post.id">No.</a>
+				<a href="/$board.uri/thread/$post.thread#p$post.id">No.</a>
 				<a>$post.id</a>
 			</span>
 		</div>
