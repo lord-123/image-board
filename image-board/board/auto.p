@@ -44,32 +44,30 @@
 		</div>
 		<center>
 			<h1>$board_vanity</h1>
+			<hr />
+			^display_form[]
 		</center>
+		<hr />
 
-@thread_form[]
+@generic_form[elements]
 <form method="post" enctype="multipart/form-data">
 	<table>
-		<tbody>
+		^elements.foreach[;element]{
 			<tr>
-				<td>Name</td>
-				<td><input name="name" placeholder="Anonymous"></td>
+				<td>$elements.title</td>
+				<td><^if(def $elements.type){$elements.type}{input} $elements.options />$elements.end</td>
 			</tr>
-			<tr>
-				<td>Subject</td>
-				<td><input name="title"></td>
-				<td><input type="submit" value="Post" name="posted"></td>
-			</tr>
-			<tr>
-				<td>Body</td>
-				<td colspan="2"><textarea name="comment"></textarea></td>
-			</tr>
-			<tr>
-				<td>File</td>
-				<td><input type="file" name="image"></td>
-			</tr>
-		</tbody>
+		}
 	</table>
-	</form>
+</form>
+
+@thread_form[]
+^generic_form[^table::create{title	options	type	end
+Name	name="name" placeholder="Anonymous"
+Subject	name="title" /><input type="submit" value="Post" name="posted"
+Comment	name="comment"	textarea	</textarea>
+File	type="file" name="image"	
+}]
 
 @execute_thread_form[]
 ^if(def $form:comment && def $form:image){

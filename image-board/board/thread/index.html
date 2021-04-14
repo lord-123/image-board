@@ -21,35 +21,15 @@ $setup_worked[0]
 
 @body[]
 ^display_thread[$thread]
-<hr>
-<center>^new_reply[]</center>
+<hr />
 
-@new_reply[]
+@display_form[]
 <h1>Post a reply</h1>
-^reply_form[]
-
-@reply_form[]
-<form method="POST" enctype="multipart/form-data">
-<table>
-	<tbody>
-		<tr>
-			<td>Name</td>
-			<td><input name="author" placeholder="Anonymous"></td>
-		</tr>
-		<tr>
-			<td>Body</td>
-			<td colspan="2"><textarea name="comment"></textarea></td>
-		</tr>
-		<tr>
-			<td>File</td>
-			<td><input type="file" name="image" /></td>
-		</tr>
-		<tr>
-			<td><input type="submit" value="Post" name="posted"></td>
-		</tr>
-	</tbody>
-</table>
-</form>
+^generic_form[^table::create{title	options	type	end
+Name	name="name" placeholder="Anonymous" /><input type="submit" value="Post" name="posted"
+Comment	name="comment"	textarea	</textarea>
+File	type="file" name="image"	
+}]
 
 @execute_reply_form[]
 ^if(def $form:comment){
