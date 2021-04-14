@@ -1,0 +1,29 @@
+@auto[]
+^use[browse.p]
+
+@navigator[]
+^generic_navigator[^table::create{uri	name
+/$board.uri	back}]
+
+@body[]
+<center>^posts[]</center>
+
+@posts[]
+^threads.menu{
+	^dbconnect{
+		$op[^table::sql{CALL get_thread_op($threads.id)}]
+		$img[^table::sql{SELECT * FROM images WHERE id = $op.id}]
+	}
+	<div class="catalogueThread">
+	<center>
+		$filesrc[/images/${op.id}c.^file:justext[$img.name]]
+		<a href="thread/$op.id">
+			<img src="$filesrc" />
+		</a>
+		<div>
+			<b>$threads.title</b>
+			<p>$op.comment</p>
+		</div>
+	</center>
+	</div>
+}

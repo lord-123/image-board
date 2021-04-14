@@ -1,17 +1,5 @@
-@setup[]
-$setup[0]
-^if(def $form:fields.board){
-	^get_board[]
-	^if($board > 0){
-		$setup_worked[1]
-	}
-}
-
-@execute_form[]
-^execute_thread_form[]
-
-@title[]
-/$board.uri/ - $board.name
+@auto[]
+^use[browse.p]
 
 @navigator[]
 ^generic_navigator[^table::create{uri	name
@@ -20,14 +8,7 @@ $setup[0]
 @body[]
 ^posts[]
 
-@display_form[]
-<h1>Post a new thread</h1>
-^thread_form[]
-
 @posts[]
-^dbconnect{
-	$threads[^table::sql{CALL get_board_threads($board.id)}]
-}
 ^threads.menu{
 	^display_thread[$threads;true]
 	<hr>
