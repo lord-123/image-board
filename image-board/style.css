@@ -36,6 +36,10 @@ hr {
 	clear: both;
 }
 
+.greentext {
+	color: forestgreen;
+}
+
 .catalogueThread {
 	vertical-align: top;
 	display: inline-block;

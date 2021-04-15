@@ -145,7 +145,15 @@
 			}
 		</div>
 		^if(!$op){^postFile[$post]}
-		<blockquote>$post.comment</blockquote>
+		<blockquote>
+			$lines[^post.comment.split[
+]]
+			^lines.foreach[;v]{
+				$temp[^v.piece.match[^(>.*^$^)][]{<span class="greentext">$match.1</span>}]
+				$temp[^temp.match[^(^(^(^(ht|f^)tp^(s?^)^)\^:\/\/^)?^(www.|^[\w^].^)^[\w\d\-\.^]+\.^(\w+^)^(\^:^[0-9^]+^)*^(\/^(^$|^[\w\d\.\,\^;\?\'\\\+&%\^$^#\=~_\-^]+^)^)*^)][]{<a href="$match.1">$match.1</a>}]
+				$temp
+			}[<br />]
+		</blockquote>
 	</div>
 
 @footer[]
