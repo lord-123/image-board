@@ -1,5 +1,5 @@
 cfg.p
 web.config
 *.conf
-*.mwb*
+*.mwb.*
 */images
