@@ -91,22 +91,30 @@
 ^if(def $file){
 	$filesrc[/images/${file.id}.^file:justext[$file.name]]
 	$thumbsrc[/images/${file.id}c.jpg]
-	^if(-f $filesrc && -f $thumbsrc){
-		$image[^image::measure[$filesrc]]
-		$stats[^file::stat[$filesrc]]
-		<div class="file">
-			<div class="fileInfo">
-				<span>File:</span>
+}
+^if(-f $filesrc && -f $thumbsrc){
+	$image[^image::measure[$filesrc]]
+	$stats[^file::stat[$filesrc]]
+}
+^if(def $file){
+	<div class="file">
+		<div class="fileInfo">
+			<span>File:</span>
+			^if(-f $filesrc && -f $thumbsrc){
 				<a href="$filesrc" class="fileName">$file.name</a>
 				<span>(${stats.size}b, ${image.width}x$image.height)</span>
-			</div>
+			}{
+				<span class="fileDeleted"><b>(FILE DELETED)</b></span>
+			}	
+		</div>
+		^if(-f $filesrc && -f $thumbsrc){
 			<input type="checkbox" class="imageExpander" id="check${file.id}"/>
 			<label class="btn" for="check${file.id}">
 				<img class="thumbnail" src="$thumbsrc">
 				<img class="fullImage" loading="lazy" src="$filesrc">
-			</a>
-		</div>
-	}
+			</label>
+		}
+	</div>
 }
 
 @postop[op;thread]
