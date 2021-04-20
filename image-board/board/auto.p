@@ -138,6 +138,9 @@
 				<a href="/$board.uri/thread/$post.thread#p$post.id">No.</a>
 				<a>$post.id</a>
 			</span>
+			^if($thread.sticky && $op){
+				<<span class="sticky"><b>sticky</b></span>>
+			}
 			^if($browser && $op){
 				<span>
 					[<a href="/$board.uri/thread/$post.thread">reply</a>]
