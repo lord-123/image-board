@@ -83,8 +83,8 @@
 		$length[^replies.count[]]
 		^if($length > 5){
 			$omitted[^eval($length - 5)]
-			<input class="postExpander" id="thread{$thread.id}" type="checkbox" />
-			<label for="thread{$thread.id}">
+			<input class="postExpander" id="thread${thread.id}" type="checkbox" />
+			<label class="link" for="thread${thread.id}">
 				<p class="expandText">expand $omitted hidden post^if($omitted != 1){s}</p>
 				<p class="hideText">hide posts</p>
 			</label>
@@ -161,8 +161,8 @@
 			^date.roll[TZ;GMT0BST]
 			<span class="date">$date.day/$date.month/$date.year ^date.hour.format[%02u]:^date.minute.format[%02u]:^date.second.format[%02u]</span>
 			<span class="postNum">
-				<a href="/$board.uri/thread/$post.thread#p$post.id">No.</a>
-				<a>$post.id</a>
+				<a class="link" href="/$board.uri/thread/$post.thread#p$post.id">No.</a>
+				<span>$post.id</span>
 			</span>
 			^if($thread.sticky && $op){
 				<<span class="sticky"><b>sticky</b></span>>

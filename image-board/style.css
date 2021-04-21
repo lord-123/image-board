@@ -1,3 +1,39 @@
+/* GENERIC */
+
+body {
+	background-color: floralwhite;
+	color: maroon;
+	font-family:Arial, Helvetica, sans-serif;
+}
+
+hr {
+	clear: both;
+}
+
+a, .link {
+	text-decoration: none;
+}
+
+a:hover, .link:hover {
+	color: red;
+}
+
+/* POST ATTRIBUTES */
+
+div.post {
+	margin: 4px 0;
+	overflow: hidden;
+}
+
+div.reply {
+	background-color: peachpuff;
+	border: 1px solid lightsalmon;
+	border-left: none;
+	border-top: none;
+	display: table;
+	padding: 2px;
+}
+
 .subject {
 	color: red;
 	font-weight: bold;
@@ -6,6 +42,10 @@
 .name {
 	color: green;
 	font-weight: bold;
+}
+
+.postNum a {
+	color: maroon;
 }
 
 .fileDeleted {
@@ -36,6 +76,14 @@
 	display: none;
 }
 
+.sticky {
+	color: darkgreen;
+}
+
+.greentext {
+	color: forestgreen;
+}
+
 .thumbnail {
 	float: left;
 }
@@ -44,17 +92,7 @@
 	max-width: 100%;
 }
 
-hr {
-	clear: both;
-}
-
-.sticky {
-	color: darkgreen;
-}
-
-.greentext {
-	color: forestgreen;
-}
+/* CATALOGUE */
 
 .catalogueThread {
 	vertical-align: top;
@@ -67,20 +105,3 @@ hr {
 	max-height: 150px;
 }
 
-div.post {
-	margin: 4px 0;
-	overflow: hidden;
-}
-
-div.reply {
-	background-color: peachpuff;
-	border: 1px solid lightsalmon;
-	border-left: none;
-	border-top: none;
-	display: table;
-	padding: 2px;
-}
-
-body {
-	background-color: floralwhite;
-}
