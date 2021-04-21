@@ -88,18 +88,18 @@
 				<p class="expandText">expand $omitted hidden post^if($omitted != 1){s}</p>
 				<p class="hideText">hide posts</p>
 			</label>
+			<div class="hiddenPost">
+				^replies.foreach[pos;elem]{
+					^if($pos < $omitted){
+						^postreply[$elem]
+					}
+				}
+			</div>
 		}{
 			$omitted[0]
 		}
-		<div class="hiddenPost">
-			^replies.foreach[pos;elem]{
-				^if($pos < $omitted){
-					^postreply[$elem]
-				}
-			}
-		</div>
 		^replies.foreach[pos;elem]{
-			^if($pos > $omitted){
+			^if($pos >= $omitted){
 				^postreply[$elem]
 			}
 		}
