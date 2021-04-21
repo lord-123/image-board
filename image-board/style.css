@@ -12,7 +12,7 @@
 	color: darkred;
 }
 
-.imageExpander {
+.imageExpander, .postExpander {
 	display: none;
 }
 
@@ -21,6 +21,18 @@
 }
 
 .imageExpander:not(:checked) + label > .fullImage {
+	display: none;
+}
+
+.postExpander:checked ~ label > .expandText {
+	display: none;
+}
+
+.postExpander:not(:checked) ~ label > .hideText {
+	display: none;
+}
+
+.postExpander:not(:checked) ~ .hiddenPost {
 	display: none;
 }
 

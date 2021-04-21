@@ -70,7 +70,7 @@
 </form>
 
 @display_thread_preview[thread]
-^display_thread[$thread]
+^display_thread[$thread;1]
 
 @display_thread[thread;preview][op]
 	<div>
@@ -79,8 +79,34 @@
 		$replies[^table::sql{CALL get_thread_replies($thread.id)}]
 	}
 	^postop[$op;$thread]
-	^replies.foreach[pos;elem]{
-		^postreply[$elem]
+	^if($preview){
+		$length[^replies.count[]]
+		^if($length > 5){
+			$omitted[^eval($length - 5)]
+			<input class="postExpander" id="thread{$thread.id}" type="checkbox" />
+			<label for="thread{$thread.id}">
+				<p class="expandText">expand $omitted hidden post^if($omitted != 1){s}</p>
+				<p class="hideText">hide posts</p>
+			</label>
+		}{
+			$omitted[0]
+		}
+		<div class="hiddenPost">
+			^replies.foreach[pos;elem]{
+				^if($pos < $omitted){
+					^postreply[$elem]
+				}
+			}
+		</div>
+		^replies.foreach[pos;elem]{
+			^if($pos > $omitted){
+				^postreply[$elem]
+			}
+		}
+	}{
+		^replies.foreach[pos;elem]{
+			^postreply[$elem]
+		}
 	}
 	</div>
 
