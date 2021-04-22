@@ -84,7 +84,7 @@
 		^if($length > 5){
 			$omitted[^eval($length - 5)]
 			<input class="postExpander" id="thread${thread.id}" type="checkbox" />
-			<label class="link" for="thread${thread.id}">
+			<label class="link expand" for="thread${thread.id}">
 				<p class="expandText">expand $omitted hidden post^if($omitted != 1){s}</p>
 				<p class="hideText">hide posts</p>
 			</label>

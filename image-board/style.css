@@ -12,6 +12,7 @@ hr {
 
 a, .link {
 	text-decoration: none;
+	display: inline-block;
 }
 
 a:hover, .link:hover {
@@ -98,6 +99,7 @@ div.reply {
 	vertical-align: top;
 	display: inline-block;
 	width: 10rem;
+	overflow: hidden;
 }
 
 .catalogueThread img{

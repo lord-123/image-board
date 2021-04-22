@@ -17,7 +17,7 @@ $setup_worked[0]
 ^execute_reply_form[]
 
 @title[]
-/$board.uri/ - $thread.title - $board.name
+/$board.uri/ - ^if(def $thread.title){$thread.title - }$board.name
 
 @navigator[]
 ^generic_navigator[^table::create{uri	name
