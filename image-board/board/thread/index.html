@@ -37,7 +37,7 @@ File	type="file" name="image"
 }]
 
 @execute_reply_form[]
-^if(def $form:comment){
+^generic_form_execution(def $form:comment){
 	^if(def $form:image){
 		^try{
 			$image[^image::measure[$form:image]]

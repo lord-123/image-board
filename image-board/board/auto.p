@@ -52,6 +52,11 @@
 		^navigator[]
 		<hr />
 
+@generic_navigator[elements]
+<div>
+	^elements.foreach[;v]{^[<a href="$v.uri">$v.name</a>^]}[]
+</div>
+
 @check_can_post[ip][ban]
 $can_post(true)
 ^dbconnect{
@@ -76,10 +81,13 @@ $can_post(true)
 }
 }
 
-@generic_navigator[elements]
-<div>
-	^elements.foreach[;v]{^[<a href="$v.uri">$v.name</a>^]}[]
-</div>
+@generic_form_execution[form_filled;execution]
+^if($form_filled){
+	^check_can_post[]
+	^if($can_post){
+		$execution
+	}
+}
 
 @generic_form[elements]
 <form method="post" enctype="multipart/form-data">
