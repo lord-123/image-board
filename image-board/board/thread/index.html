@@ -46,7 +46,8 @@ File	type="file" name="image"
 					'$form:comment',
 					^if(def $form:author){'$form:author'}{'Anonymous'},
 					$thread.id,
-					'$form:image.name'
+					'$form:image.name',
+					INET6_ATON('$env:REMOTE_ADDR')
 				)}]
 			}
 			^form:image.save[binary;/images/${id}.^file:justext[$form:image.name]]
@@ -61,7 +62,8 @@ File	type="file" name="image"
 				'$form:comment',
 				^if(def $form:author){'$form:author'}{'Anonymous'},
 				$thread.id,
-				NULL
+				NULL,
+				INET6_ATON('$env:REMOTE_ADDR')
 			)}
 		}
 	}

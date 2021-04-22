@@ -24,29 +24,25 @@ File	type="file" name="image"
 
 @execute_thread_form[]
 ^if(def $form:comment && def $form:image){
-	^dbconnect{
-		$ban[^table::sql{SELECT start_date, end_date FROM bans WHERE poster = INET6_ATON('$env:REMOTE_ADDR') AND end_date > curdate()}]
-	}
-	^if($ban){
-		$response:status(401)
-		$response:body[<h1>you are banned</h1><p>your ban started $ban.start_date and will expire $ban.end_date</p>]
-	}
-	^try{
-		$image[^image::measure[$form:image]]
-		^dbconnect{
-			$id[^int:sql{CALL new_thread(
-				$board.id,
-				^if(def $form:title){'$form:title'}{NULL},
-				'$form:comment',
-				^if(def $form:name){'$form:name'}{'Anonymous'},
-				'$form:image.name'
-			)}]
+	^check_can_post[]
+	^if(!$banned){
+		^try{
+			$image[^image::measure[$form:image]]
+			^dbconnect{
+				$id[^int:sql{CALL new_thread(
+					$board.id,
+					^if(def $form:title){'$form:title'}{NULL},
+					'$form:comment',
+					^if(def $form:name){'$form:name'}{'Anonymous'},
+					'$form:image.name',
+					INET6_ATON('$env:REMOTE_ADDR')
+				)}]
+			}
+			^form:image.save[binary;/images/${id}.^file:justext[$form:image.name]]
+			$f[^file::exec[/compress.sh;;${id}.^file:justext[$form:image.name];${id}c.jpg;250x250>]]
+		}{
+			<h1>Thread creation failed.</h1>
 		}
-		^form:image.save[binary;/images/${id}.^file:justext[$form:image.name]]
-		$f[^file::exec[/compress.sh;;${id}.^file:justext[$form:image.name];${id}c.jpg;250x250>]]
-	}{
-		
-		<h1>Thread creation failed.</h1>
 	}
 }
 

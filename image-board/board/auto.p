@@ -52,6 +52,19 @@
 		^navigator[]
 		<hr />
 
+@check_can_post[ip][ban]
+^dbconnect{
+	$ban[^table::sql{CALL get_ban(INET6_ATON('$env:REMOTE_ADDR'))}]
+}
+^if($ban){
+	$banned(true)
+	$response:status(401)
+	$response:body[<h1>you are banned</h1>
+		<p><b>reason:</b> $ban.reason</b>
+		<p>your ban started $ban.start_date and will expire $ban.end_date</p>
+	]
+}
+
 @generic_navigator[elements]
 <div>
 	^elements.foreach[;v]{^[<a href="$v.uri">$v.name</a>^]}[]
