@@ -47,6 +47,9 @@
 			<h1>$board_vanity</h1>
 			<hr />
 			^display_form[]
+			^if(def $form_error){
+				<h2>$form_error</h2>
+			}
 		</center>
 		<hr />
 		^navigator[]

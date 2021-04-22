@@ -39,7 +39,8 @@ File	type="file" name="image"
 		^form:image.save[binary;/images/${id}.^file:justext[$form:image.name]]
 		$f[^file::exec[/compress.sh;;${id}.^file:justext[$form:image.name];${id}c.jpg;250x250>]]
 	}{
-		<h1>Thread creation failed.</h1>
+		$exception.handled(true)
+		$form_error[image upload failed]
 	}
 }
 
