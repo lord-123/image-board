@@ -53,16 +53,27 @@
 		<hr />
 
 @check_can_post[ip][ban]
+$can_post(true)
 ^dbconnect{
 	$ban[^table::sql{CALL get_ban(INET6_ATON('$env:REMOTE_ADDR'))}]
 }
 ^if($ban){
-	$banned(true)
+	$can_post(false)
 	$response:status(401)
 	$response:body[<h1>you are banned</h1>
 		<p><b>reason:</b> $ban.reason</b>
 		<p>your ban started $ban.start_date and will expire $ban.end_date</p>
 	]
+}{
+^dbconnect{
+	$user_posts[^table::sql{CALL get_user_posts(INET6_ATON('$env:REMOTE_ADDR'))}]
+}
+^user_posts.menu{
+	$t($user_posts.comment eq $form:comment)
+	^if($user_posts.comment eq $form:comment){
+		$can_post(false)
+	}
+}
 }
 
 @generic_navigator[elements]

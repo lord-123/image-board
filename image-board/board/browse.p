@@ -25,7 +25,7 @@ File	type="file" name="image"
 @execute_thread_form[]
 ^if(def $form:comment && def $form:image){
 	^check_can_post[]
-	^if(!$banned){
+	^if($can_post){
 		^try{
 			$image[^image::measure[$form:image]]
 			^dbconnect{
