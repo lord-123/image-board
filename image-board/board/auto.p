@@ -72,23 +72,39 @@ $can_post(true)
 		<p><b>reason:</b> $ban.reason</b>
 		<p>your ban started $ban.start_date and will expire $ban.end_date</p>
 	]
+	^return[]
+}
+
+^try{
+	$image[^image::measure[$form:image]]
 }{
+	$exception.handled(true)
+	$can_post(false)
+	$form_error[image failed to upload]
+	^return[]
+}
+
 ^dbconnect{
 	$user_posts[^table::sql{CALL get_user_posts(INET6_ATON('$env:REMOTE_ADDR'))}]
 }
 ^user_posts.menu{
-	$t($user_posts.comment eq $form:comment)
 	^if($user_posts.comment eq $form:comment){
 		$can_post(false)
+		^return[]
 	}
 }
-}
 
-@generic_form_execution[form_filled;execution]
+@generic_form_execution[form_filled;image_size;query]
 ^if($form_filled){
 	^check_can_post[]
 	^if($can_post){
-		$execution
+		^if(def $form:image){
+			^dbconnect{$id[^int:sql{$query}]}
+			^form:image.save[binary;/images/${id}.^file:justext[$form:image.name]]
+			$f[^file::exec[/compress.sh;;${id}.^file:justext[$form:image.name];${id}c.jpg;${image_size}>]]
+		}{
+			^dbconnect{^void:sql{$query}}
+		}
 	}
 }
 
