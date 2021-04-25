@@ -47,6 +47,9 @@
 			<h1>$board_vanity</h1>
 			<hr />
 			^display_form[]
+			^if(def $form_error){
+				<h2>$form_error</h2>
+			}
 		</center>
 		<hr />
 		^navigator[]
@@ -56,6 +59,58 @@
 <div>
 	^elements.foreach[;v]{^[<a href="$v.uri">$v.name</a>^]}[]
 </div>
+
+@check_can_post[][ban]
+$can_post(true)
+^dbconnect{
+	$ban[^table::sql{CALL get_ban(INET6_ATON('$env:REMOTE_ADDR'))}]
+}
+^if($ban){
+	^if(^date::create[$ban.end_date] > ^date::now[]){
+		$can_post(false)
+		$response:status(401)
+		$response:body[<h1>you are banned</h1>
+			<p><b>reason:</b> $ban.reason</b>
+			<p>your ban started $ban.start_date and will expire $ban.end_date</p>
+		]
+		^return[]
+	}
+}
+
+^if(def $form:image){
+	^try{
+		$image[^image::measure[$form:image]]
+	}{
+		$exception.handled(true)
+		$can_post(false)
+		$form_error[image failed to upload]
+		^return[]
+	}
+}
+
+^dbconnect{
+	$user_posts[^table::sql{CALL get_user_posts(INET6_ATON('$env:REMOTE_ADDR'))}]
+}
+^user_posts.menu{
+	^if($user_posts.comment eq $form:comment){
+		$can_post(false)
+		^return[]
+	}
+}
+
+@generic_form_execution[form_filled;image_size;query]
+^if($form_filled){
+	^check_can_post[]
+	^if($can_post){
+		^if(def $form:image){
+			^dbconnect{$id[^int:sql{$query}]}
+			^form:image.save[binary;/images/${id}.^file:justext[$form:image.name]]
+			$f[^file::exec[/compress.sh;;${id}.^file:justext[$form:image.name];${id}c.jpg;${image_size}>]]
+		}{
+			^dbconnect{^void:sql{$query}}
+		}
+	}
+}
 
 @generic_form[elements]
 <form method="post" enctype="multipart/form-data">

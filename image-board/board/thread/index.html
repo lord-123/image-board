@@ -37,32 +37,11 @@ File	type="file" name="image"
 }]
 
 @execute_reply_form[]
-^if(def $form:comment){
-	^if(def $form:image){
-		^try{
-			$image[^image::measure[$form:image]]
-			^dbconnect{
-				$id[^int:sql{CALL new_reply(
-					'$form:comment',
-					^if(def $form:author){'$form:author'}{'Anonymous'},
-					$thread.id,
-					'$form:image.name'
-				)}]
-			}
-			^form:image.save[binary;/images/${id}.^file:justext[$form:image.name]]
-			$f[^file::exec[/compress.sh;;${id}.^file:justext[$form:image.name];${id}c.jpg;125x125>]]
-		}{
-			$exception.handled(true)
-			<h1>Image upload failed.</h1>
-		}
-	}{
-		^dbconnect{
-			^void:sql{CALL new_reply(
-				'$form:comment',
-				^if(def $form:author){'$form:author'}{'Anonymous'},
-				$thread.id,
-				NULL
-			)}
-		}
-	}
-}
+^generic_form_execution(def $form:comment)[125x125][
+CALL new_reply(
+	'$form:comment',
+	^if(def $form:author){'$form:author'}{'Anonymous'},
+	$thread.id,
+	^if(def $form:image){'$form:image.name'}{NULL},
+	INET6_ATON('$env:REMOTE_ADDR')
+)]

@@ -23,25 +23,15 @@ File	type="file" name="image"
 }]
 
 @execute_thread_form[]
-^if(def $form:comment && def $form:image){
-	^try{
-		$image[^image::measure[$form:image]]
-		^dbconnect{
-			$id[^int:sql{CALL new_thread(
-				$board.id,
-				^if(def $form:title){'$form:title'}{NULL},
-				'$form:comment',
-				^if(def $form:name){'$form:name'}{'Anonymous'},
-				'$form:image.name'
-			)}]
-		}
-		^form:image.save[binary;/images/${id}.^file:justext[$form:image.name]]
-		$f[^file::exec[/compress.sh;;${id}.^file:justext[$form:image.name];${id}c.jpg;250x250>]]
-	}{
-		$exception.handled(true)
-		<h1>Thread creation failed.</h1>
-	}
-}
+^generic_form_execution(def $form:comment && def $form:image)[250x250][
+CALL new_thread(
+	$board.id,
+	^if(def $form:title){'$form:title'}{NULL},
+	'$form:comment',
+	^if(def $form:name){'$form:name'}{'Anonymous'},
+	'$form:image.name',
+	INET6_ATON('$env:REMOTE_ADDR')
+)]
 
 @title[]
 /$board.uri/ - $board.name
