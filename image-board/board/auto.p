@@ -60,19 +60,21 @@
 	^elements.foreach[;v]{^[<a href="$v.uri">$v.name</a>^]}[]
 </div>
 
-@check_can_post[ip][ban]
+@check_can_post[][ban]
 $can_post(true)
 ^dbconnect{
 	$ban[^table::sql{CALL get_ban(INET6_ATON('$env:REMOTE_ADDR'))}]
 }
 ^if($ban){
-	$can_post(false)
-	$response:status(401)
-	$response:body[<h1>you are banned</h1>
-		<p><b>reason:</b> $ban.reason</b>
-		<p>your ban started $ban.start_date and will expire $ban.end_date</p>
-	]
-	^return[]
+	^if(^date::create[$ban.end_date] > ^date::now[]){
+		$can_post(false)
+		$response:status(401)
+		$response:body[<h1>you are banned</h1>
+			<p><b>reason:</b> $ban.reason</b>
+			<p>your ban started $ban.start_date and will expire $ban.end_date</p>
+		]
+		^return[]
+	}
 }
 
 ^try{
