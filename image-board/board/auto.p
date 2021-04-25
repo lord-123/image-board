@@ -77,13 +77,15 @@ $can_post(true)
 	}
 }
 
-^try{
-	$image[^image::measure[$form:image]]
-}{
-	$exception.handled(true)
-	$can_post(false)
-	$form_error[image failed to upload]
-	^return[]
+^if(def $form:image){
+	^try{
+		$image[^image::measure[$form:image]]
+	}{
+		$exception.handled(true)
+		$can_post(false)
+		$form_error[image failed to upload]
+		^return[]
+	}
 }
 
 ^dbconnect{
